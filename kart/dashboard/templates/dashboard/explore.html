@@ -1,0 +1,31 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}
+Explore - Kart
+{% endblock %}
+{% block body %}
+<section class="section">
+
+
+    <div class="row align-items-top" style="display:flex">
+        {% for book in books%}
+        <div class="col-lg-3">
+            <a href="/me/view-profile/{{book.roll_no.roll_no}}">
+                <div class="card">
+                    <img src="/media/{{book.picture}} " class="card-img-top" alt="..." width="251.11">
+                    <div class="card-body" w>
+                        <h5 class="card-title">{{book.title}}</h5>
+                        <p class="card-text" style="color:#444444;display: -webkit-box;
+                        max-width: 400px;
+                         height:202.19;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;}">{{book.desc}} </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock%}

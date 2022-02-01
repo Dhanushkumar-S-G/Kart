@@ -1,9 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
-
-
 class Student(models.Model):
     roll_no = models.TextField(primary_key=True, verbose_name="Roll No", max_length=6,
                                unique=True, blank=False)
