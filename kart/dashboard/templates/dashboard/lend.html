@@ -17,10 +17,16 @@ Lend - Kart
 
             <form class="row g-3" method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="title" name="title" placeholder="Book Title">
                         <label for="title">Book Title</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="author" name="author" placeholder="Book author">
+                        <label for="author">Book author</label>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -28,6 +34,34 @@ Lend - Kart
                         <input type="text" class="form-control" id="description" name="description"
                                placeholder="Book Description">
                         <label for="description">Book Description</label>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                    <div class="form-floating">
+                        <input type="number" min="1900" max="2099" step="1" class="form-control" id="year" name="year"
+                               placeholder="Year published"></input>
+                        <label for="year">Year published</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input type="number" class="form-control" min="0" id="edition" name="edition"
+                               placeholder="Book Edition">
+                        <label for="edition">Book Edition</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="department" name="department"
+                               placeholder="Department">
+                        <label for="department">Department</label>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="semester" name="semester"
+                               placeholder="Semester">
+                        <label for="semester">Semester</label>
                     </div>
                 </div>
                 <div class="col-md-12">

@@ -1,0 +1,57 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}
+dashboard-{{student.name}}
+{% endblock %}
+{% block body %}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Books that you have lended</h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable" style=" overflow:hidden;overflow-y: scroll;">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Edition</th>
+                            <th scope="col">Date Posted</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for book in books %}
+
+                            <tr>
+                                <td>{{book.title}}</td>
+                                <td>{{book.author}}</td>
+                                <td>{{book.book_edition}}</td>
+                                <td>{{book.date_posted}}</td>
+                                <td>
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                    <button type="submit" value="{{book.id}}" name="hide" class="btn btn-danger mb-2">
+                                        Hide
+                                    </button>
+                                    </form>
+                                </td>
+                            </tr>
+
+
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
