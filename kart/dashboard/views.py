@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from home.models import Student
 from .models import Book
+import datetime
+from django.core import serializers
 
 
 # Create your views here.
@@ -10,13 +12,21 @@ def dashboard(request):
         roll_no = request.session['roll_no']
         student = Student.objects.get(roll_no=roll_no)
         books = Book.objects.raw(
-            "select * from dashboard_book where roll_no_id  = '" + roll_no + "' and to_lend = True;")
+            "select * from dashboard_book where roll_no_id  = '" + roll_no + "'")
         if request.method == 'POST':
-            print("exe")
-            book_id = request.POST.get('hide')
-            book = Book.objects.get(id=book_id)
-            book.to_lend = False
-            book.save()
+            if 'hide' in request.POST:
+                book_id = request.POST.get('hide')
+                book = Book.objects.get(id=book_id)
+                book.date_posted = datetime.datetime.now()
+                book.to_lend = False
+                book.save()
+
+            if 'lend' in request.POST:
+                book_id = request.POST.get('lend')
+                book = Book.objects.get(id=book_id)
+                book.to_lend = True
+                book.date_posted = datetime.datetime.now()
+                book.save()
         return render(request, 'dashboard/dashboard.html', {'student': student, 'books': books})
     else:
         return redirect('/')
@@ -49,8 +59,9 @@ def explore(request):
     if request.session.get('roll_no'):
         student = Student.objects.get(roll_no=request.session['roll_no'])
         books = Book.objects.raw(
-            "select * from dashboard_book where to_lend = True order by date_posted;")
-        return render(request, 'dashboard/explore.html', {'student': student, 'books': books})
+            "select * from dashboard_book where to_lend = True order by date_posted desc;")
+        books_json = serializers.serialize("json",books)
+        return render(request, 'dashboard/explore.html', {'student': student, 'books': books, 'books_json':books_json})
     else:
         redirect('/')
 

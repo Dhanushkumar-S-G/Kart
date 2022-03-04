@@ -7,7 +7,7 @@ Explore - Kart
 <section class="section">
 
 
-    <div class="row align-items-top" style="display:flex">
+    <div class="row align-items-top" style="display:flex" id="books">
         {% for book in books%}
         <div class="col-lg-12">
             <a href="/me/view-profile/{{book.roll_no.roll_no}}">
@@ -16,22 +16,26 @@ Explore - Kart
                         <div class="col-md-6">
                             <img src="/media/{{book.picture}}" class="img-fluid rounded-start" alt="...">
                         </div>
-                        <div class="col-md-6" >
-                            <div class="card-body pt-2" >
+                        <div class="col-md-6">
+                            <div class="card-body pt-2">
                                 <p class="card-title pt-1">{{book.title}}</p>
                                 <div class="row g-0">
-                                    <div class="col-md-6" >
-                                        <p class="card-title pt-2" style="display:inline-block;">Author :</p><p class="card-text" style="display:inline-block;">{{book.author}}</p><br>
-                                        <p class="card-title pt-2" style="display:inline-block;">Year Published :</p><p class="card-text" style="display:inline-block;">{{book.pub_year}}</p>
+                                    <div class="col-md-6">
+                                        <p class="card-title pt-2" style="display:inline-block;">Author :</p>
+                                        <p class="card-text" style="display:inline-block;">{{book.author}}</p><br>
+                                        <p class="card-title pt-2" style="display:inline-block;">Year Published :</p>
+                                        <p class="card-text" style="display:inline-block;">{{book.pub_year}}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="card-title pt-2" style="display:inline-block;">Book edition :</p><p class="card-text" style="display:inline-block;">{{book.book_edition}}</p><br>
-                                        <p class="card-title pt-2" style="display:inline-block;">Department :</p><p class="card-text" style="display:inline-block;">{{book.dept}}</p>
+                                        <p class="card-title pt-2" style="display:inline-block;">Book edition :</p>
+                                        <p class="card-text" style="display:inline-block;">{{book.book_edition}}</p><br>
+                                        <p class="card-title pt-2" style="display:inline-block;">Semester :</p>
+                                        <p class="card-text" style="display:inline-block;">{{book.sem}}</p>
                                     </div>
                                 </div>
-
-
-                                <p class="card-title pt-2" style="display:inline-block;">Semester :</p><p class="card-text" style="display:inline-block;">{{book.sem}}</p><br>
+                                <p class="card-title pt-2" style="display:inline-block;">Department :</p>
+                                <p class="card-text" style="display:inline-block;">{{book.dept}}</p>
+                                <br>
 
 
                                 <p class="card-text" style="color:#444444;display: -webkit-box;
@@ -43,6 +47,8 @@ Explore - Kart
                             </div>
                         </div>
                     </div>
+                </div>
+
             </a>
         </div>
 
@@ -50,4 +56,70 @@ Explore - Kart
         {% endfor %}
     </div>
 </section>
+<script>
+    const data = '{{books_json}}'
+    console.log(data)
+
+    const rdata =  JSON.parse(data.replace(/&quot;/g, '"'))
+    console.log(rdata)
+    console.log(typeof(rdata))
+    let input = document.getElementById('search')
+    console.log(input)
+
+
+    let filterArr = []
+    input.addEventListener('keyup', (e)=>{
+    books.innerHTML = ""
+    filteredArr = rdata.filter(info=>info['fields']['title'].toLowerCase().includes(e.target.value.toLowerCase())||
+    info['fields']['author'].toLowerCase().includes(e.target.value.toLowerCase())
+    ||info['fields']['dept'].toLowerCase().includes(e.target.value.toLowerCase()))
+    console.log(filteredArr)
+    if(filteredArr.length>0){
+    filteredArr.map(item =>{
+    books.innerHTML += `
+    <div class="col-lg-12">
+            <a href="/me/view-profile/${item['fields']['roll_no']}">
+                <div class="card mb-5">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <img src="/media/${item['fields']['picture']}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-6" >
+                            <div class="card-body pt-2" >
+                                <p class="card-title pt-1">${item['fields']['title']}</p>
+                                <div class="row g-0">
+                                    <div class="col-md-6" >
+                                        <p class="card-title pt-2" style="display:inline-block;">Author :</p><p class="card-text" style="display:inline-block;">${item['fields']['author']}</p><br>
+                                        <p class="card-title pt-2" style="display:inline-block;">Year Published :</p><p class="card-text" style="display:inline-block;">${item['fields']['pub_year']}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="card-title pt-2" style="display:inline-block;">Book edition :</p><p class="card-text" style="display:inline-block;">${item['fields']['book_edition']}</p><br>
+                                        <p class="card-title pt-2" style="display:inline-block;">Semester :</p><p class="card-text" style="display:inline-block;">${item['fields']['sem']}</p>
+
+                                    </div>
+                                </div>
+
+                                <p class="card-title pt-2" style="display:inline-block;">Department :</p><p class="card-text" style="display:inline-block;">${item['fields']['dept']}</p>
+                                <br>
+
+
+                                <p class="card-text" style="color:#444444;display: -webkit-box;
+                        max-width: 600px;
+                         height:202.19;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;}">${item['fields']['desc']}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </a>
+        </div>`
+    })
+
+    }
+    })
+
+</script>
 {% endblock%}

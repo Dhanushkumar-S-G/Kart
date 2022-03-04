@@ -5,6 +5,23 @@ import datetime
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
+department = {
+    'ae': 'Aeronautical Engineering',
+    'au': 'Automobile Engineering',
+    'bt': 'Biotechnology',
+    'ce': 'Civil Engineering',
+    'cs': 'ComputerScience Engineering',
+    'ee': 'Electrical and Electronics Engineering',
+    'ec': 'Electronics and Communication Engineering',
+    'ei': 'Electronics and Instrumentation Engineering',
+    'ft': 'Fashion Technology',
+    'is': 'Information Science and Engineering',
+    'it': 'Information Technology',
+    'me': 'Mechanical Engineering',
+    'mc': 'Mechatronics Engineering',
+    'tt': 'Textile Technology'
+}
+
 
 @partial
 def create_user(backend, response, *args, **kwargs):
@@ -13,7 +30,7 @@ def create_user(backend, response, *args, **kwargs):
     name = response['given_name']
     email = response['upn']
     dept = email[-12:-10]
-    dept = dept.upper()
+    dept = dept
     try:
         last_login = datetime.datetime.now()
         user = Student.objects.get(roll_no=roll_no)
@@ -25,7 +42,7 @@ def create_user(backend, response, *args, **kwargs):
         if request.method == "POST":
             linkedin = request.POST.get('linkedin')
             last_login = datetime.datetime.now()
-            user = Student.objects.create(roll_no=roll_no, name=name, mail=email, dept=dept, linkedin=linkedin,
+            user = Student.objects.create(roll_no=roll_no, name=name, mail=email, dept=department[dept], linkedin=linkedin,
                                           last_login=last_login)
             template = render_to_string('home/email.html', {'name': name})
             e_mail = EmailMessage(

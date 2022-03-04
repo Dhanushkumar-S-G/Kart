@@ -18,7 +18,7 @@ dashboard-{{student.name}}
                             <th scope="col">Name</th>
                             <th scope="col">Author</th>
                             <th scope="col">Edition</th>
-                            <th scope="col">Date Posted</th>
+                            <th scope="col">Date Lent/Hidden </th>
                             <th scope="col">Status</th>
                         </tr>
                         </thead>
@@ -34,9 +34,17 @@ dashboard-{{student.name}}
                                 <td>
                                     <form method="post" action="">
                                         {% csrf_token %}
-                                    <button type="submit" value="{{book.id}}" name="hide" class="btn btn-danger mb-2">
-                                        Hide
-                                    </button>
+                                        {% if book.to_lend %}
+                                            <button type="submit" value="{{book.id}}" name="hide" class="btn btn-danger mb-2">
+                                                Hide
+                                            </button>
+                                        {% else %}
+                                        <button type="submit" value="{{book.id}}" name="lend" class="btn btn-success mb-2">
+                                                Lend
+                                            </button>
+                                        {% endif %}
+
+
                                     </form>
                                 </td>
                             </tr>
