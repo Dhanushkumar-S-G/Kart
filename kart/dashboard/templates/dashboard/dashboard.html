@@ -34,7 +34,9 @@ dashboard-{{student.name}}
                                 <td>
                                     <form method="post" action="">
                                         {% csrf_token %}
-                                        {% if book.to_lend %}
+                                        {% if not book.is_verified %}
+                                        <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle me-1"></i>Not yet verified</span>
+                                        {% elif book.to_lend %}
                                             <button type="submit" value="{{book.id}}" name="hide" class="btn btn-danger mb-2">
                                                 Hide
                                             </button>

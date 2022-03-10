@@ -147,13 +147,30 @@
                 <span>Explore</span>
             </a>
         </li>
-
+        
         <li class="nav-item">
             <a class="nav-link collapsed" href="/me/lend">
                 <i class="bi bi-shuffle"></i>
                 <span>Lend</span>
             </a>
         </li>
+        
+        
+        {% if student.is_staff %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/me/share-request">
+                <i class="bi bi-arrow-return-right"></i>
+                <span>Share Request</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/me/books-requested">
+                <i class="bi bi-journal-check"></i>
+                <span>Books Requested </span>
+            </a>
+        </li>
+        {% endif %}
+
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="/me/logout">
@@ -161,13 +178,21 @@
                 <span>Log out</span>
             </a>
         </li>
-
-
+        
     </ul>
 
 </aside><!-- End Sidebar-->
 
 <main id="main" class="main">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible fade show" id = "msg" role="alert">
+        <i class="bi bi-exclamation-octagon me-1"></i>
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
         {% block body %}
         {% endblock %}
 
@@ -191,7 +216,14 @@
 
 <!-- Template Main JS File -->
 <script src="{% static '/dashboard/js/main.js' %}"></script>
-
+<script>
+    var message_ele = document.getElementById("msg");
+    if (message_ele != null){
+    setTimeout(function(){
+       message_ele.style.display = "none";
+    }, 5000);}
+    
+      </script>
 </body>
 
 </html>

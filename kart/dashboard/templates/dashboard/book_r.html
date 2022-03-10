@@ -1,0 +1,66 @@
+{% extends 'dashboard/layout.html' %} 
+{% load static %}
+{% block title %}
+Kart - Books Requested
+{% endblock %}
+{% block body%}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Books that are requested</h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable" style=" overflow:hidden;overflow-y: scroll;">
+                        <thead>
+                        <tr>
+                            <th scope="col">Roll no</th>
+                            <th scope="col">Requested By</th>
+                            <th scope="col">Book Title</th>
+                            <th scope="col">Shared by </th>
+                            <th scope="col">Date Requested</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for req in reqs %}
+
+                            <tr>
+                                <td>{{req.student.roll_no}}</td>
+                                <td>{{req.student.name}}</td>
+                                <td>{{req.book.title}}</td>
+                                <td>{{req.book.roll_no}}</td>
+                                <td>{{req.date_requested}}</td>
+                                <td>
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                        {% if req.status == 'not given'%}
+                                        <button type="submit" value="{{req.id}}" name="conform" class="btn btn-primary mb-2">
+                                            Conform
+                                        </button>
+                                        {% elif req.status == 'conformed' %}
+                                        <button type="submit" value="{{req.id}}" name="give" class="btn btn-primary mb-2">
+                                            Given
+                                        </button>
+                                        {% endif %}
+
+                                    </form>
+                                </td>
+                            </tr>
+
+
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

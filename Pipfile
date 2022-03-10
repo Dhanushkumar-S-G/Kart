@@ -8,6 +8,10 @@ django = "*"
 python-social-auth = "*"
 social-auth-app-django = "*"
 pillow = "*"
+celery = "*"
+redis = "*"
+django-celery-results = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 
